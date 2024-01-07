@@ -9,5 +9,29 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let startTime = performance.now();
+    let sum = 0;
+    for (let i = 0; i < n; i++) {
+        sum - sum + i;
+    }
+    let endTime = performance.now();
+    let elapsedTime = endTime - startTime;
+    return elapsedTime;
 }
+
+let a = 100;
+let totalTime_a = calculateTime(a);
+
+console.log(`Total time: ${totalTime_a} milliseconds`);
+
+
+let b = 100000;
+let totalTime_b = calculateTime(b);
+
+console.log(`Total time: ${totalTime_b} milliseconds`);
+
+
+let n = 1000000000;
+let totalTime = calculateTime(n);
+
+console.log(`Total time: ${totalTime} milliseconds`);
