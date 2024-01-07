@@ -11,8 +11,8 @@
     Response: 200 OK with an array of todo items in JSON format.
     Example: GET http://localhost:3000/todos
     
-  2.GET /todos/:id - Retrieve a specific todo item by ID
-    Description: Returns a specific todo item identified by its ID.
+  2.GET /todos/:id - deRetrieve a specific todo item by ID
+    Description: Returns a specific todo item intified by its ID.
     Response: 200 OK with the todo item in JSON format if found, or 404 Not Found if not found.
     Example: GET http://localhost:3000/todos/123
     
@@ -39,11 +39,62 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+let todos = [];
+app.use(bodyParser.json());
+
+app.get('/todos', (req, res) => {
+  res.json(todos)
+})
+
+app.get('/todos/:id', (req, res) => {
+  const todo = todos.find(t => t.id === parseInt(req.params.id))
+  if (!todo) {
+    res.status(404).send('todo not found')
+  } else {
+    res.json(todo)
+  }
+})
+
+app.post('/todos', (req, res) => {
+  const todo = {
+    id: Math.floor(Math.random() * 1000000),
+    title: req.body.title,
+    description: req.body.description,
+    completed: false
+  }
+  todos.push(todo);
+  res.status(201).json(todo)
+})
+
+app.put('/todos/:id', (req, res) => {
+  const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id))
+  if (todoIndex === -1) {
+    res.status(404).send('Todo not found')
+  } else {
+    todos[todoIndex].title = req.body.title;
+    todos[todoIndex].completed = req.body.completed;
+    res.status(200).json(todos[todoIndex]);
+  }
+
+})
+
+app.delete('/todos/:id', (req, res) => {
+  const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id))
+  if (todoIndex === -1) {
+    res.status(404).send('Todo not found')
+  } else {
+    todos.splice(todoIndex, 1)
+    res.status(200).send()
+  }
+})
+
+app.all('*', (res, req) => {
+  res.status(404).send('Route not found')
+})
+
+module.exports = app;
