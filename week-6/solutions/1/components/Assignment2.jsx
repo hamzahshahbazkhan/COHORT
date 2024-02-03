@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 // The goal is to use useMemo to optimize the filtering process, ensuring the list is only re-calculated when necessary (e.g., when the filter criteria changes).
 // You will learn something new here, specifically how you have to pass more than one value in the dependency array
 
-const words = ["hi", "my", "name", "is", "for", "to", "random", "word" ];
+const words = ["hi", "my", "name", "is", "for", "to", "random", "word"];
 const TOTAL_LINES = 1000;
 const ALL_WORDS = [];
 for (let i = 0; i < TOTAL_LINES; i++) {
@@ -22,14 +22,14 @@ export function Assignment2() {
 
     const filteredSentences = useMemo(() => {
         return sentences.filter(x => x.includes(filter));
-    }, [sentences, filter]) 
+    }, [sentences, filter])
 
     return <div>
         <input type="text" onChange={(e) => {
             setFilter(e.target.value)
         }}></input>
         {filteredSentences.map(word => <div>
-            {word}    
+            {word}
         </div>)}
     </div>
 }
